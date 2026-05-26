@@ -1,26 +1,139 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f4f4f1;
-  --foreground: #171717;
+  --dd-bg: #ffffff;
+  --dd-bg-2: #f5f5f5;
+  --dd-surface: #ffffff;
+  --dd-border: #e5e5e5;
+  --dd-border-hover: #cccccc;
+  --dd-text: #111111;
+  --dd-text-muted: #666666;
+  --dd-text-soft: #aaaaaa;
+  --dd-nav: rgba(255, 255, 255, 0.9);
+  --dd-accent: oklch(62% 0.14 60);
+  --dd-accent-hover: oklch(55% 0.16 60);
+  --dd-accent-bg: oklch(97.5% 0.025 60);
+  --dd-accent-border: oklch(88% 0.07 60);
+  --dd-accent-text: oklch(40% 0.11 60);
+  --dd-radius-sm: 6px;
+  --dd-radius-md: 10px;
+  --dd-radius-lg: 14px;
+  --dd-radius-xl: 20px;
+  --background: var(--dd-bg);
+  --foreground: var(--dd-text);
+}
+
+[data-theme="dark"] {
+  --dd-bg: #111111;
+  --dd-bg-2: #1c1c1c;
+  --dd-surface: #191919;
+  --dd-border: #2b2b2b;
+  --dd-border-hover: #3e3e3e;
+  --dd-text: #f0eeea;
+  --dd-text-muted: #888888;
+  --dd-text-soft: #555555;
+  --dd-nav: rgba(17, 17, 17, 0.9);
+  --dd-accent: oklch(72% 0.14 60);
+  --dd-accent-hover: oklch(66% 0.16 60);
+  --dd-accent-bg: oklch(22% 0.07 60);
+  --dd-accent-border: oklch(33% 0.09 60);
+  --dd-accent-text: oklch(78% 0.12 60);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: "Google Sans", Arial, Helvetica, sans-serif;
+  --font-sans: "DM Sans", system-ui, sans-serif;
+  --font-display: "Lora", Georgia, serif;
   --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
 }
 
+html,
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: "Google Sans", Arial, Helvetica, sans-serif;
+  background: var(--dd-bg);
+  color: var(--dd-text);
+}
+
+body {
+  font-family: "DM Sans", system-ui, sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
 }
 
 button,
 input {
   font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+::placeholder {
+  color: var(--dd-text-soft);
+}
+
+html,
+body,
+nav,
+main,
+footer,
+.theme-transition {
+  transition:
+    background-color 0.22s ease,
+    border-color 0.22s ease,
+    color 0.22s ease;
+}
+
+@keyframes dd-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes dd-fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes dd-scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.dd-page-enter {
+  animation: dd-fade-up 0.32s cubic-bezier(0.22, 0.68, 0, 1.1) both;
+}
+
+.dd-fade {
+  animation: dd-fade-in 0.18s ease both;
+}
+
+.dd-scale {
+  animation: dd-scale-in 0.22s cubic-bezier(0.22, 0.68, 0, 1.2) both;
+}
+
+.dd-display {
+  font-family: "Lora", Georgia, serif;
 }
 
 .excalidraw {
