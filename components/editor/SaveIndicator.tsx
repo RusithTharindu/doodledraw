@@ -11,7 +11,7 @@ export function SaveIndicator({ status }: { status: SaveStatus }) {
 
   return (
     <div
-      className="inline-grid size-9 place-items-center rounded-md border border-zinc-200 bg-white text-zinc-700 shadow-sm"
+      className="inline-grid size-9 place-items-center rounded-md border border-[var(--dd-border)] bg-[var(--dd-surface)] text-[var(--dd-text-muted)] shadow-sm"
       title={label}
     >
       <Icon

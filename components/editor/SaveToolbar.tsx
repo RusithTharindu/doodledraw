@@ -29,7 +29,7 @@ type IconButtonProps = {
 };
 
 const iconButtonClass =
-  "inline-grid size-9 place-items-center rounded-md border border-zinc-200 bg-white text-zinc-700 shadow-sm transition hover:bg-zinc-50 hover:text-zinc-950 focus:outline-none focus:ring-2 focus:ring-zinc-300";
+  "inline-grid size-9 place-items-center rounded-md border border-[var(--dd-border)] bg-[var(--dd-surface)] text-[var(--dd-text-muted)] shadow-sm transition hover:bg-[var(--dd-bg-2)] hover:text-[var(--dd-text)] focus:outline-none focus:ring-2 focus:ring-[var(--dd-accent)]";
 
 function IconButton({ label, icon: Icon, onClick, inputProps }: IconButtonProps) {
   if (inputProps) {
@@ -68,7 +68,7 @@ export function SaveToolbar({
   return (
     <div className="flex max-w-full flex-wrap items-center gap-2">
       <input
-        className="h-9 w-48 max-w-[55vw] rounded-md border border-zinc-200 bg-white px-3 text-sm font-medium text-zinc-900 outline-none transition focus:border-zinc-400"
+        className="h-9 w-48 max-w-[55vw] rounded-md border border-[var(--dd-border)] bg-[var(--dd-surface)] px-3 text-sm font-medium text-[var(--dd-text)] outline-none transition focus:border-[var(--dd-border-hover)] focus:ring-2 focus:ring-[var(--dd-accent)]"
         value={name}
         onChange={(event) => onNameChange(event.target.value)}
         aria-label="Drawing name"
@@ -91,7 +91,7 @@ export function SaveToolbar({
           }}
         />
       </div>
-      <div className="flex items-center gap-1 border-l border-zinc-200 pl-2">
+      <div className="flex items-center gap-1 border-l border-[var(--dd-border)] pl-2">
         <IconButton
           label="Export Excalidraw"
           icon={FolderOpen}
