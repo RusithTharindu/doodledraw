@@ -2,50 +2,20 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Moon, Sun } from "lucide-react";
-import { useEffect, useSyncExternalStore } from "react";
 import { Icon } from "@/components/Icon";
+import { ThemeToggle } from "@/components/ThemeToggle";
+import { useAppTheme } from "@/hooks/useAppTheme";
 
 type AppShellProps = {
   children: React.ReactNode;
 };
 
 const chromeRoutes = new Set(["/", "/designs"]);
-const themeEvent = "dd-theme-change";
-
-function getThemeSnapshot() {
-  if (typeof window === "undefined") {
-    return "light";
-  }
-
-  const storedTheme = window.localStorage.getItem("dd-theme");
-
-  if (storedTheme === "dark" || storedTheme === "light") {
-    return storedTheme;
-  }
-
-  return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-}
-
-function subscribeTheme(callback: () => void) {
-  window.addEventListener("storage", callback);
-  window.addEventListener(themeEvent, callback);
-
-  return () => {
-    window.removeEventListener("storage", callback);
-    window.removeEventListener(themeEvent, callback);
-  };
-}
 
 export function AppShell({ children }: AppShellProps) {
   const pathname = usePathname();
-  const theme = useSyncExternalStore(subscribeTheme, getThemeSnapshot, () => "light");
-  const darkMode = theme === "dark";
+  useAppTheme();
   const showChrome = chromeRoutes.has(pathname);
-
-  useEffect(() => {
-    document.documentElement.dataset.theme = theme;
-  }, [theme]);
 
   if (!showChrome) {
     return children;
@@ -70,22 +40,7 @@ export function AppShell({ children }: AppShellProps) {
               Open Designs
             </Link>
           ) : null}
-          <button
-            aria-label={darkMode ? "Switch to light mode" : "Switch to dark mode"}
-            className="grid size-[34px] place-items-center rounded-[var(--dd-radius-sm)] text-[var(--dd-text-muted)] transition hover:bg-[var(--dd-bg-2)] hover:text-[var(--dd-text)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--dd-accent)]"
-            onClick={() => {
-              window.localStorage.setItem("dd-theme", darkMode ? "light" : "dark");
-              window.dispatchEvent(new Event(themeEvent));
-            }}
-            title={darkMode ? "Light mode" : "Dark mode"}
-            type="button"
-          >
-            {darkMode ? (
-              <Sun className="size-4" aria-hidden="true" />
-            ) : (
-              <Moon className="size-4" aria-hidden="true" />
-            )}
-          </button>
+          <ThemeToggle className="grid size-[34px] place-items-center rounded-[var(--dd-radius-sm)] text-[var(--dd-text-muted)] transition hover:bg-[var(--dd-bg-2)] hover:text-[var(--dd-text)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--dd-accent)]" />
         </div>
       </nav>
       <main key={pathname} className="dd-page-enter">

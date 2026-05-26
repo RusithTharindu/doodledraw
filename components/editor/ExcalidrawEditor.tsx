@@ -23,8 +23,10 @@ import { sceneFromDesign } from "@/lib/excalidraw";
 import { useAutosave } from "@/hooks/useAutosave";
 import type { DoodleScene, SavedDesign } from "@/types/design";
 import { Icon } from "@/components/Icon";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import { SaveIndicator } from "@/components/editor/SaveIndicator";
 import { SaveToolbar } from "@/components/editor/SaveToolbar";
+import { useAppTheme } from "@/hooks/useAppTheme";
 
 const Excalidraw = dynamic(
   async () => (await import("@excalidraw/excalidraw")).Excalidraw,
@@ -97,11 +99,11 @@ function PendingSaveDialog({
         aria-labelledby="pending-save-title"
         aria-describedby="pending-save-description"
         aria-modal="true"
-        className="w-full max-w-md rounded-lg border border-zinc-200 bg-white p-5 text-zinc-950 shadow-2xl"
+        className="w-full max-w-md rounded-lg border border-[var(--dd-border)] bg-[var(--dd-surface)] p-5 text-[var(--dd-text)] shadow-2xl"
         role="dialog"
       >
         <div className="flex items-start gap-3">
-          <div className="grid size-9 shrink-0 place-items-center rounded-md bg-amber-50 text-amber-700">
+          <div className="grid size-9 shrink-0 place-items-center rounded-md bg-[var(--dd-accent-bg)] text-[var(--dd-accent-text)]">
             <AlertTriangle className="size-4" aria-hidden="true" />
           </div>
           <div>
@@ -110,7 +112,7 @@ function PendingSaveDialog({
             </h2>
             <p
               id="pending-save-description"
-              className="mt-1 text-sm leading-6 text-zinc-600"
+              className="mt-1 text-sm leading-6 text-[var(--dd-text-muted)]"
             >
               Your latest changes have not finished saving. Continue to{" "}
               {targetLabel} now, or stay here until the save completes.
@@ -119,7 +121,7 @@ function PendingSaveDialog({
         </div>
         <div className="mt-5 grid gap-2 sm:grid-cols-[0.85fr_1fr_1.15fr]">
           <button
-            className="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-md border border-zinc-200 bg-white px-4 text-sm font-medium text-zinc-700 transition hover:bg-zinc-50 focus:outline-none focus:ring-2 focus:ring-zinc-300 disabled:cursor-not-allowed disabled:opacity-60"
+            className="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-md border border-[var(--dd-border)] bg-[var(--dd-surface)] px-4 text-sm font-medium text-[var(--dd-text-muted)] transition hover:bg-[var(--dd-bg-2)] hover:text-[var(--dd-text)] focus:outline-none focus:ring-2 focus:ring-[var(--dd-accent)] disabled:cursor-not-allowed disabled:opacity-60"
             disabled={saving}
             onClick={onCancel}
             type="button"
@@ -127,7 +129,7 @@ function PendingSaveDialog({
             Cancel
           </button>
           <button
-            className="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-md border border-zinc-200 bg-white px-4 text-sm font-medium text-zinc-700 transition hover:bg-zinc-50 focus:outline-none focus:ring-2 focus:ring-zinc-300 disabled:cursor-not-allowed disabled:opacity-60"
+            className="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-md border border-[var(--dd-border)] bg-[var(--dd-surface)] px-4 text-sm font-medium text-[var(--dd-text-muted)] transition hover:bg-[var(--dd-bg-2)] hover:text-[var(--dd-text)] focus:outline-none focus:ring-2 focus:ring-[var(--dd-accent)] disabled:cursor-not-allowed disabled:opacity-60"
             disabled={saving}
             onClick={onContinue}
             type="button"
@@ -135,7 +137,7 @@ function PendingSaveDialog({
             Continue now
           </button>
           <button
-            className="inline-flex h-10 items-center justify-center gap-2 whitespace-nowrap rounded-md bg-zinc-950 px-4 text-sm font-medium text-white transition hover:bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-zinc-400 disabled:cursor-wait disabled:bg-zinc-700"
+            className="inline-flex h-10 items-center justify-center gap-2 whitespace-nowrap rounded-md bg-[var(--dd-text)] px-4 text-sm font-medium text-[var(--dd-bg)] transition hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-[var(--dd-accent)] disabled:cursor-wait disabled:opacity-70"
             disabled={saving}
             onClick={onStayAndSave}
             type="button"
@@ -154,6 +156,7 @@ function PendingSaveDialog({
 export function ExcalidrawEditor({ initialDesign }: ExcalidrawEditorProps) {
   const router = useRouter();
   const pathname = usePathname();
+  const { theme } = useAppTheme();
   const apiRef = useRef<ExcalidrawImperativeAPI | null>(null);
   const hasReceivedInitialSceneRef = useRef(false);
   const allowPostSaveRedirectRef = useRef(true);
@@ -312,12 +315,12 @@ export function ExcalidrawEditor({ initialDesign }: ExcalidrawEditorProps) {
   );
 
   return (
-    <div className="grid h-dvh grid-rows-[auto_minmax(0,1fr)] bg-zinc-100 text-zinc-950">
-      <header className="flex flex-wrap items-center justify-between gap-3 border-b border-zinc-200 bg-white px-3 py-2">
+    <div className="theme-transition grid h-dvh grid-rows-[auto_minmax(0,1fr)] bg-[var(--dd-bg-2)] text-[var(--dd-text)]">
+      <header className="theme-transition flex flex-wrap items-center justify-between gap-3 border-b border-[var(--dd-border)] bg-[var(--dd-surface)] px-3 py-2">
         <div className="flex min-w-0 flex-wrap items-center gap-3">
           <Link
             aria-label="DoodleDraw home"
-            className="inline-grid size-9 shrink-0 place-items-center rounded-md text-zinc-950 transition hover:bg-zinc-50 focus:outline-none focus:ring-2 focus:ring-zinc-300"
+            className="inline-grid size-9 shrink-0 place-items-center rounded-md text-[var(--dd-text)] transition hover:bg-[var(--dd-bg-2)] focus:outline-none focus:ring-2 focus:ring-[var(--dd-accent)]"
             href="/"
             onNavigate={guardNavigation({ href: "/", label: "home" })}
             title="DoodleDraw"
@@ -342,7 +345,7 @@ export function ExcalidrawEditor({ initialDesign }: ExcalidrawEditorProps) {
             onExportSvg={() => void exportSceneAsSvg(currentDesign())}
           />
           {message ? (
-            <div className="w-fit rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-700 shadow-sm">
+            <div className="w-fit rounded-md border border-[var(--dd-border)] bg-[var(--dd-surface)] px-3 py-2 text-sm text-[var(--dd-text-muted)] shadow-sm">
               {message}
             </div>
           ) : null}
@@ -351,7 +354,7 @@ export function ExcalidrawEditor({ initialDesign }: ExcalidrawEditorProps) {
           <nav className="flex items-center gap-1">
             <Link
               aria-label="New drawing"
-              className="inline-grid size-9 place-items-center rounded-md border border-zinc-200 bg-white text-zinc-700 shadow-sm transition hover:bg-zinc-50 hover:text-zinc-950 focus:outline-none focus:ring-2 focus:ring-zinc-300"
+              className="inline-grid size-9 place-items-center rounded-md border border-[var(--dd-border)] bg-[var(--dd-surface)] text-[var(--dd-text-muted)] shadow-sm transition hover:bg-[var(--dd-bg-2)] hover:text-[var(--dd-text)] focus:outline-none focus:ring-2 focus:ring-[var(--dd-accent)]"
               href="/editor"
               onNavigate={guardNavigation({
                 href: "/editor",
@@ -363,7 +366,7 @@ export function ExcalidrawEditor({ initialDesign }: ExcalidrawEditorProps) {
             </Link>
             <Link
               aria-label="Designs"
-              className="inline-grid size-9 place-items-center rounded-md border border-zinc-200 bg-white text-zinc-700 shadow-sm transition hover:bg-zinc-50 hover:text-zinc-950 focus:outline-none focus:ring-2 focus:ring-zinc-300"
+              className="inline-grid size-9 place-items-center rounded-md border border-[var(--dd-border)] bg-[var(--dd-surface)] text-[var(--dd-text-muted)] shadow-sm transition hover:bg-[var(--dd-bg-2)] hover:text-[var(--dd-text)] focus:outline-none focus:ring-2 focus:ring-[var(--dd-accent)]"
               href="/designs"
               onNavigate={guardNavigation({ href: "/designs", label: "Designs" })}
               title="Designs"
@@ -371,6 +374,7 @@ export function ExcalidrawEditor({ initialDesign }: ExcalidrawEditorProps) {
               <Images className="size-4" aria-hidden="true" />
             </Link>
           </nav>
+          <ThemeToggle className="inline-grid size-9 place-items-center rounded-md border border-[var(--dd-border)] bg-[var(--dd-surface)] text-[var(--dd-text-muted)] shadow-sm transition hover:bg-[var(--dd-bg-2)] hover:text-[var(--dd-text)] focus:outline-none focus:ring-2 focus:ring-[var(--dd-accent)]" />
           <SaveIndicator status={status === "idle" ? "saved" : status} />
         </div>
       </header>
@@ -382,6 +386,7 @@ export function ExcalidrawEditor({ initialDesign }: ExcalidrawEditorProps) {
               apiRef.current = api;
             }}
             onChange={handleChange}
+            theme={theme}
             UIOptions={excalidrawUIOptions}
           />
         </div>
