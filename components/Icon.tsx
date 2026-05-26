@@ -11,44 +11,24 @@ export function Icon({ className, showIconTitle = false, titleClassName }: IconP
         aria-hidden="true"
         className={className}
         fill="none"
-        viewBox="0 0 32 32"
+        viewBox="0 0 24 24"
         xmlns="http://www.w3.org/2000/svg"
       >
         <rect
-          className="fill-white"
-          height="27"
-          rx="7"
-          width="27"
-          x="2.5"
-          y="2.5"
+          stroke="currentColor"
+          strokeWidth="1.6"
+          height="20"
+          rx="5"
+          width="20"
+          x="2"
+          y="2"
         />
         <path
-          d="M9 21.5c3.7 2.2 9.4 1.8 13.4-1.2"
+          d="M6 12c1.5-3 3.5 3 6 0s4.5 3 6 0"
+          fill="none"
           stroke="currentColor"
           strokeLinecap="round"
-          strokeWidth="2.2"
-        />
-        <path
-          d="M9.4 17.4 18.9 7.9c.8-.8 2.1-.8 2.9 0l2.3 2.3c.8.8.8 2.1 0 2.9l-9.5 9.5-5.3 1.3 1.1-5.5Z"
-          className="fill-emerald-100"
-          stroke="currentColor"
-          strokeLinejoin="round"
-          strokeWidth="2"
-        />
-        <path
-          d="m17.4 9.4 5.2 5.2"
-          stroke="currentColor"
-          strokeLinecap="round"
-          strokeWidth="2"
-        />
-        <rect
-          height="27"
-          rx="7"
-          stroke="currentColor"
-          strokeWidth="2"
-          width="27"
-          x="2.5"
-          y="2.5"
+          strokeWidth="1.7"
         />
       </svg>
       {showIconTitle ? (
